@@ -122,7 +122,7 @@
       top: 22%; 
     }
 
-    /* iOS স্টাইল ভয়েস ইন্ডিকেটর */
+    /* iOS স্টাইল ভয়েস ইন্ডিকেটর (ক্লিকযোগ্য অন/অফ বাটন) */
     #iosVoiceIndicator {
       position: absolute;
       bottom: 25px;
@@ -141,7 +141,8 @@
       align-items: center;
       color: #fff;
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-      pointer-events: none;
+      cursor: pointer;
+      pointer-events: auto;
       transition: all 0.3s ease;
     }
 
@@ -255,7 +256,6 @@
     let pasteInterval = null;
     let lineAnimations = [];
 
-    // শুধুমাত্র আপনার কাস্টম স্মুথ বীপ সাউন্ড (Web Audio API)
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     function playBeep(type = 'start') {
       if (audioCtx.state === 'suspended') {
@@ -282,15 +282,6 @@
       oscillator.start();
       oscillator.stop(audioCtx.currentTime + 0.12);
     }
-
-    const handleUserInteraction = (e) => {
-      if (e.target.id === 'hiddenFlowerLink') return;
-      input.focus();
-      startContinuousSpeech();
-    };
-
-    window.addEventListener('click', handleUserInteraction);
-    window.addEventListener('touchstart', handleUserInteraction);
 
     const canvaColors = [
       {r: 255, g: 75,  b: 130}, 
@@ -435,52 +426,19 @@
       previousLength = newText.length;
     }
 
-    function processPasteQueue() {
-      if (pasteInterval) return;
-
-      pasteInterval = setInterval(() => {
-        if (pasteQueue.length > 0) {
-          const nextWord = pasteQueue.shift();
-          const newContent = userText + (userText.length > 0 && !userText.endsWith(' ') ? ' ' : '') + nextWord;
-          updateTextContent(newContent, true);
-        } else {
-          clearInterval(pasteInterval);
-          pasteInterval = null;
-        }
-      }, 220);
-    }
-
-    input.addEventListener('paste', (e) => {
-      e.preventDefault();
-      const pastedData = (e.clipboardData || window.clipboardData).getData('text');
-      if (!pastedData) return;
-
-      const words = pastedData.trim().split(/\s+/);
-      pasteQueue.push(...words);
-      processPasteQueue();
-    });
-
-    input.addEventListener('input', (e) => {
-      if (!pasteInterval && pasteQueue.length === 0) {
-        updateTextContent(input.value);
-      }
-    });
-
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     let recognition = null;
-    let isMicActive = false;
-    let restartTimer = null;
+    let isUserManuallyStopped = false; // ব্যবহারকারী নিজে বন্ধ করেছেন কিনা তা ট্র্যাক করবে
 
     if (SpeechRecognition) {
       recognition = new SpeechRecognition();
-      recognition.continuous = false;
+      recognition.continuous = true;
       recognition.interimResults = true;
       recognition.lang = 'bn-BD';
 
       recognition.onstart = () => {
-        isMicActive = true;
         iosVoiceIndicator.classList.add('active');
-        playBeep('start'); // শুধুমাত্র আপনার কাস্টম সাউন্ড বাজবে
+        playBeep('start');
       };
 
       recognition.onresult = (event) => {
@@ -492,32 +450,46 @@
       };
 
       recognition.onend = () => {
-        isMicActive = false;
         iosVoiceIndicator.classList.remove('active');
-        playBeep('end'); // শুধুমাত্র আপনার কাস্টম সাউন্ড বাজবে
+        playBeep('end');
         
-        clearTimeout(restartTimer);
-        restartTimer = setTimeout(startContinuousSpeech, 1000);
+        // যদি ব্যবহারকারী নিজে বন্ধ না করে থাকেন, তবেই অটো রিস্টার্ট হবে
+        if (!isUserManuallyStopped) {
+          setTimeout(() => {
+            try { recognition.start(); } catch (e) {}
+          }, 1000);
+        }
       };
 
       recognition.onerror = (e) => {
-        isMicActive = false;
-        iosVoiceIndicator.classList.remove('active');
-        clearTimeout(restartTimer);
-        restartTimer = setTimeout(startContinuousSpeech, 1200);
+        if (!isUserManuallyStopped) {
+          setTimeout(() => {
+            try { recognition.start(); } catch (e) {}
+          }, 1200);
+        }
       };
     }
 
-    function startContinuousSpeech() {
-      if (recognition && !isMicActive) {
-        try {
-          recognition.start();
-        } catch (e) {}
-      }
-    }
+    // মাইক্রোফোন আইকনে ক্লিক করলে অন/অফ টগল হবে
+    iosVoiceIndicator.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!recognition) return;
 
-    window.addEventListener('load', () => {
-      setTimeout(startContinuousSpeech, 500);
+      if (isUserManuallyStopped) {
+        // অন করার জন্য
+        isUserManuallyStopped = false;
+        try { recognition.start(); } catch (e) {}
+      } else {
+        // বন্ধ করার জন্য
+        isUserManuallyStopped = true;
+        try { recognition.stop(); } catch (e) {}
+      }
+    });
+
+    // স্ক্রিনের অন্য কোথাও ক্লিক করলে ইনপুট ফোকাস হবে
+    window.addEventListener('click', (e) => {
+      if (e.target.id === 'hiddenFlowerLink' || e.target.closest('#iosVoiceIndicator')) return;
+      input.focus();
     });
 
     const primaryFont = '"Anek Bangla", "Poppins", sans-serif';
@@ -657,29 +629,10 @@
 
     document.fonts.ready.then(() => {
       requestAnimationFrame(renderLoop);
-    });
-  </script>
-</body>
-</html>
-ineWidth = 5;
-        ctx.lineJoin = 'round';
-        ctx.strokeText(lineText, 0, 0);
-
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = `rgba(${currentColor.r}, ${currentColor.g}, ${currentColor.b}, ${0.8 * (anim ? anim.opacity : 1)})`;
-        ctx.fillStyle = `rgba(255, 255, 255, ${anim ? anim.opacity : 1})`;
-
-        ctx.fillText(lineText, 0, 0);
-        ctx.restore();
-      });
-
-      ctx.restore();
-
-      requestAnimationFrame(renderLoop);
-    }
-
-    document.fonts.ready.then(() => {
-      requestAnimationFrame(renderLoop);
+      // পেজ লোড হওয়ার সাথে সাথে মাইক্রোফোন চালু হবে
+      setTimeout(() => {
+        try { recognition.start(); } catch(e) {}
+      }, 500);
     });
   </script>
 </body>
