@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  
+  <title>ΛLΞX JΛMΞS ᗪEV - PORTFOLIO & REALISTIC TYPING FX</title>
+  
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="ΛLΞX JΛMΞS ᗪEV">
+  <meta name="description" content="ΛLΞX JΛMΞS ᗪEV - UI/UX, Web/App Development & Interactive Design">
+  <meta name="theme-color" content="#030305">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ΛLΞX JΛMΞS ᗪEV">
+  <meta property="og:description" content="UI/UX, Web/App Development & Interactive Design">
+  <meta property="og:image" content="https://i.postimg.cc/qBGFpD6Z/ALEX-JAMES-GITHUB.png">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ΛLΞX JΛMΞS">
+
+  <!-- Fonts & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent !important;
+      outline: none !important;
+    }
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #030305;
+      font-family: 'Poppins', 'Anek Bangla', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    body::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      background: radial-gradient(circle, transparent 40%, rgba(2, 2, 5, 0.85) 100%);
+      z-index: 5;
+    }
+
+    /* Flower iframe Animation styling - Bottom Up Smooth Bloom */
+    .flower-frame {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      z-index: 1;
+      pointer-events: none; 
+      opacity: 0.95;
+      filter: contrast(1.15) brightness(1.02);
+      transform-origin: bottom center;
+      will-change: transform, opacity;
+      animation: flowerGrowIn 5.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    @keyframes flowerGrowIn {
+      0% {
+        transform: translateY(80px) scale(0.92);
+        opacity: 0;
+      }
+      30% {
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(0) scale(1);
+        opacity: 0.95;
+      }
+    }
+
+    .flower-frame.replay-bloom {
+      animation: none;
+    }
+
+    body.keyboard-active .flower-frame {
+      transform: translateY(-25%);
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 2;
+      display: block;
+      pointer-events: none; 
+    }
+
+    #hiddenInput {
+      position: absolute;
+      opacity: 0;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 10;
+      cursor: pointer;
+    }
+
+    /* iOS Native Style Floating Dock Controls Container */
+    .controls-container {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 40;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 8px 12px;
+      border-radius: 35px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      transition: bottom 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    body.keyboard-active .controls-container {
+      bottom: 320px;
+    }
+
+    /* iOS Style Clean Button Animation & Touch Feedback */
+    .control-btn {
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
+      cursor: pointer;
+      pointer-events: auto;
+      text-decoration: none;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .control-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .control-btn:active {
+      transform: scale(0.82);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .control-btn span {
+      font-size: 24px;
+      color: rgba(255, 255, 255, 0.9);
+      transition: transform 0.2s ease;
+    }
+
+    .control-btn:active span {
+      transform: scale(0.9);
+    }
+
+    /* iOS Voice Pulse Animation (Neutral White/Clean Glow) */
+    #iosVoiceIndicator.active {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
+      animation: iosSpringPulse 1.2s infinite ease-in-out;
+    }
+
+    #iosVoiceIndicator.active span {
+      color: #ffffff;
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+    }
+
+    @keyframes iosSpringPulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 255, 255, 0.4); }
+      50% { transform: scale(1.08); box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
+      100% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 255, 255, 0.4); }
+    }
+
+    /* --- Canva-Style Smooth Animated Modal Overlay --- */
+    .canva-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
+    }
+
+    .canva-modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .canva-modal-card {
+      width: 88%;
+      max-width: 340px;
+      background: rgba(22, 22, 34, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border-radius: 24px;
+      padding: 24px 20px 20px 20px;
+      text-align: center;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 255, 255, 0.05);
+      
+      transform: scale(0.7) translateY(30px);
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .canva-modal-overlay.show .canva-modal-card {
+      transform: scale(1) translateY(0);
+    }
+
+    .canva-modal-title {
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: 0.2px;
+    }
+
+    .canva-modal-desc {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 13px;
+      line-height: 1.4;
+      margin-bottom: 16px;
+    }
+
+    .modal-textarea {
+      width: 100%;
+      height: 90px;
+      background: rgba(10, 10, 18, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 14px;
+      color: #fff;
+      padding: 12px;
+      font-family: inherit;
+      font-size: 14px;
+      resize: none;
+      margin-bottom: 18px;
+      -webkit-user-select: text !important;
+      user-select: text !important;
+      transition: border-color 0.3s;
+    }
+
+    .modal-textarea:focus {
+      border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    .canva-modal-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .canva-btn {
+      flex: 1;
+      padding: 13px 0;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .canva-btn-primary {
+      background: rgba(255, 255, 255, 0.9);
+      color: #030305;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+    }
+
+    .canva-btn-primary:active {
+      transform: scale(0.95);
+      background: #ffffff;
+    }
+
+    .canva-btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .canva-btn-secondary:active {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* History List Container Style Fix */
+    .history-list {
+      max-height: 180px;
+      overflow-y: auto;
+      margin-bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: left;
+      -webkit-user-select: text;
+      user-select: text;
+      padding-right: 4px;
+    }
+
+    /* Custom Scrollbar for History */
+    .history-list::-webkit-scrollbar {
+      width: 4px;
+    }
+    .history-list::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+
+    .history-item {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 10px 12px;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 13px;
+      cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: background 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+    }
+
+    .history-item:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .history-empty {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 13px;
+      text-align: center;
+      padding: 15px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Flower Frame -->
+  <iframe id="flowerFrame" class="flower-frame" src="https://dev-tanay.github.io/Animated-Flower/"></iframe>
+
+  <canvas id="particleCanvas"></canvas>
+  <input type="text" id="hiddenInput" autocomplete="off" placeholder="Type here...">
+
+  <!-- Control Buttons (iOS Style Dock & Icons) -->
+  <div class="controls-container">
+    <div id="autoTypeBtn" class="control-btn" title="Set & Play Animation">
+      <span class="material-symbols-outlined">play_arrow</span>
+    </div>
+
+    <!-- History Button -->
+    <div id="historyBtn" class="control-btn" title="Animation History">
+      <span class="material-symbols-outlined">schedule</span>
+    </div>
+
+    <div id="iosVoiceIndicator" class="control-btn" title="Voice Input">
+      <span class="material-symbols-outlined">mic</span>
+    </div>
+
+    <div id="clearBtn" class="control-btn" title="Word By Word Clear">
+      <span class="material-symbols-outlined">backspace</span>
+    </div>
+
+    <a id="portfolioBtn" class="control-btn" href="https://alex-james.vercel.app" target="_blank" title="Open Portfolio">
+      <span class="material-symbols-outlined">account_circle</span>
+    </a>
+  </div>
+
+  <!-- Canva Style English Text Input Modal -->
+  <div id="canvaModal" class="canva-modal-overlay">
+    <div class="canva-modal-card">
+      <div class="canva-modal-title">Enter Text for Animation</div>
+      <div class="canva-modal-desc">Paste your copied text or write your message below:</div>
+      <textarea id="customTextPrompt" class="modal-textarea" placeholder="Paste your text here..."></textarea>
+      <div class="canva-modal-actions">
+        <button id="startAnimationBtn" class="canva-btn canva-btn-primary">Play</button>
+        <button id="closeTextModalBtn" class="canva-btn canva-btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- History Modal Overlay -->
+  <div id="historyModal" class="canva-modal-overlay">
+    <div class="canva-modal-card">
+      <div class="canva-modal-title">Animation History</div>
+      <div class="canva-modal-desc">Click any previous text to replay animation:</div>
+      <div id="historyListContainer" class="history-list">
+        <!-- History items will be injected dynamically -->
+      </div>
+      <div class="canva-modal-actions">
+        <button id="clearHistoryBtn" class="canva-btn canva-btn-primary" style="background: rgba(255, 255, 255, 0.9); color: #030305;">Clear History</button>
+        <button id="closeHistoryModalBtn" class="canva-btn canva-btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('contextmenu', (e) => { e.preventDefault(); });
+
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+    const input = document.getElementById('hiddenInput');
+    const iosVoiceIndicator = document.getElementById('iosVoiceIndicator');
+    const clearBtn = document.getElementById('clearBtn');
+    const autoTypeBtn = document.getElementById('autoTypeBtn');
+    const historyBtn = document.getElementById('historyBtn');
+    const flowerFrame = document.getElementById('flowerFrame');
+
+    const canvaModal = document.getElementById('canvaModal');
+    const customTextPrompt = document.getElementById('customTextPrompt');
+    const startAnimationBtn = document.getElementById('startAnimationBtn');
+    const closeTextModalBtn = document.getElementById('closeTextModalBtn');
+
+    const historyModal = document.getElementById('historyModal');
+    const historyListContainer = document.getElementById('historyListContainer');
+    const closeHistoryModalBtn = document.getElementById('closeHistoryModalBtn');
+    const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+
+    let width, height;
+    let startY; 
+    let dpr = window.devicePixelRatio || 1;
+
+    let targetAutoText = ""; 
+    
+    // Load history from localStorage safely
+    let animationHistory = [];
+    try {
+      const savedHistory = localStorage.getItem('alex_animation_history');
+      if (savedHistory) {
+        animationHistory = JSON.parse(savedHistory);
+      }
+    } catch(e) {
+      console.error("Failed to load history from localStorage", e);
+    }
+
+    function saveHistoryToLocalStorage() {
+      try {
+        localStorage.setItem('alex_animation_history', JSON.stringify(animationHistory));
+      } catch(e) {
+        console.error("Failed to save history to localStorage", e);
+      }
+    }
+
+    function resize() {
+      dpr = window.devicePixelRatio || 1;
+      width = window.innerWidth;
+      height = window.innerHeight;
+
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+
+      ctx.scale(dpr, dpr);
+      startY = height * 0.18;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    input.addEventListener('focus', () => { document.body.classList.add('keyboard-active'); });
+    input.addEventListener('blur', () => { document.body.classList.remove('keyboard-active'); });
+
+    window.visualViewport?.addEventListener('resize', () => {
+      if (window.visualViewport.height < window.innerHeight * 0.75) {
+        document.body.classList.add('keyboard-active');
+      } else {
+        document.body.classList.remove('keyboard-active');
+      }
+    });
+
+    let userText = "";
+    let previousText = "";
+    let wordObjects = [];
+    let isDeletingSequence = false;
+    let isAutoTyping = false;
+    let cursorPosition = { x: width / 2, y: startY };
+
+    const wordColors = [
+      {r: 255, g: 140, b: 200, hex: "#ff8cc8"}, 
+      {r: 160, g: 210, b: 255, hex: "#a0d2ff"}, 
+      {r: 255, g: 215, b: 130, hex: "#ffd782"}, 
+      {r: 200, g: 160, b: 255, hex: "#c8a0ff"}, 
+      {r: 130, g: 245, b: 215, hex: "#82f5d7"}  
+    ];
+
+    const deleteColors = [
+      {r: 255, g: 90,  b: 120},  
+      {r: 255, g: 140, b: 160}, 
+      {r: 230, g: 100, b: 230}  
+    ];
+
+    function drawGlowingHeart(ctx, x, y, size, color, alpha) {
+      ctx.save();
+      ctx.translate(x, y);
+      
+      const radGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, size * 2.5);
+      radGrad.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha * 0.9})`);
+      radGrad.addColorStop(0.5, `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha * 0.4})`);
+      radGrad.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
+      
+      ctx.fillStyle = radGrad;
+      ctx.beginPath();
+      ctx.arc(0, 0, size * 2.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.95})`;
+      let s = size / 3;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(-3 * s, -3 * s, -6 * s, 1 * s, 0, 6 * s);
+      ctx.bezierCurveTo(6 * s, 1 * s, 3 * s, -3 * s, 0, 0);
+      ctx.fill();
+      
+      ctx.restore();
+    }
+
+    const fireflies = [];
+    const fireflyCount = 28; 
+
+    class Firefly {
+      constructor() { this.reset(); }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.size = Math.random() * 2 + 1;
+        this.vx = (Math.random() - 0.5) * 0.3;
+        this.vy = (Math.random() - 0.5) * 0.3;
+        this.alpha = Math.random();
+        this.pulseSpeed = Math.random() * 0.02 + 0.008;
+        this.angle = Math.random() * Math.PI * 2;
+        this.color = {r: 200, g: 240, b: 255}; 
+      }
+      update() {
+        this.x += this.vx + Math.sin(this.angle) * 0.2;
+        this.y += this.vy + Math.cos(this.angle) * 0.2;
+        this.angle += 0.015;
+        this.alpha += this.pulseSpeed;
+        if (this.alpha > 0.9 || this.alpha < 0.1) this.pulseSpeed = -this.pulseSpeed;
+        if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) this.reset();
+      }
+      draw() {
+        const currentAlpha = Math.max(0, Math.min(1, this.alpha));
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.shadowBlur = 8 * currentAlpha;
+        ctx.shadowColor = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, 0.8)`;
+        ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${currentAlpha * 0.7})`;
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < fireflyCount; i++) fireflies.push(new Firefly());
+
+    const activeParticles = [];
+
+    class DynamicParticle {
+      constructor(x, y, color, isHeart = false) {
+        this.x = x + (Math.random() - 0.5) * 12;
+        this.y = y + (Math.random() - 0.5) * 8;
+        
+        const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.2;
+        const speed = Math.random() * 2.2 + 0.8; 
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed - 0.5;
+        this.size = isHeart ? (Math.random() * 2.5 + 2.5) : (Math.random() * 2 + 1); 
+        this.color = color;
+        this.isHeart = isHeart;
+        this.life = 1.0;
+        this.decay = Math.random() * 0.025 + 0.015; 
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vx *= 0.96;
+        this.vy *= 0.96;
+        this.life -= this.decay;
+      }
+      draw() {
+        if (this.life <= 0) return;
+        if (this.isHeart) {
+          drawGlowingHeart(ctx, this.x, this.y, this.size, this.color, this.life);
+        } else {
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${this.life * 0.9})`;
+          ctx.shadowBlur = 6 * this.life;
+          ctx.shadowColor = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, 0.8)`;
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+    }
+
+    function spawnCursorTypingBurst(x, y, color) {
+      for (let i = 0; i < 4; i++) {
+        activeParticles.push(new DynamicParticle(x, y + 15, color, Math.random() > 0.4));
+      }
+    }
+
+    function syncTextToWordObjects(text) {
+      userText = text;
+      input.value = text;
+
+      let words = text.trim() ? text.trim().split(/\s+/) : [];
+      
+      wordObjects = words.map((w, idx) => ({
+        text: w,
+        opacity: 1.0,
+        offsetY: 0,
+        isDissolving: false,
+        color: wordColors[idx % wordColors.length]
+      }));
+    }
+
+    input.addEventListener('input', (e) => {
+      isDeletingSequence = false;
+      const newText = input.value;
+
+      if (newText.length > previousText.length) {
+        const curColor = wordColors[newText.length % wordColors.length];
+        spawnCursorTypingBurst(cursorPosition.x, cursorPosition.y, curColor);
+      } else if (newText.length < previousText.length) {
+        const randDeleteColor = deleteColors[Math.floor(Math.random() * deleteColors.length)];
+        spawnCursorTypingBurst(cursorPosition.x, cursorPosition.y, randDeleteColor);
+      }
+
+      syncTextToWordObjects(newText);
+      previousText = newText;
+    });
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'bn-BD'; 
+
+      iosVoiceIndicator.addEventListener('click', (e) => {
+        e.stopPropagation();
+        try {
+          recognition.start();
+          iosVoiceIndicator.classList.add('active');
+        } catch (err) {
+          console.error("Mic already started or blocked:", err);
+        }
+      });
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        const updatedText = input.value ? input.value + " " + transcript : transcript;
+        syncTextToWordObjects(updatedText);
+        previousText = updatedText;
+        
+        const curColor = wordColors[updatedText.length % wordColors.length];
+        spawnCursorTypingBurst(cursorPosition.x, cursorPosition.y, curColor);
+        iosVoiceIndicator.classList.remove('active');
+      };
+
+      recognition.onerror = () => {
+        iosVoiceIndicator.classList.remove('active');
+      };
+
+      recognition.onend = () => {
+        iosVoiceIndicator.classList.remove('active');
+      };
+    } else {
+      console.warn("Speech Recognition API is not supported in this browser.");
+    }
+
+    function triggerFlowerBloom(durationSec = 5.5) {
+      flowerFrame.style.animation = 'none';
+      flowerFrame.offsetHeight; 
+      flowerFrame.style.animation = `flowerGrowIn ${durationSec}s cubic-bezier(0.16, 1, 0.3, 1) forwards`;
+    }
+
+    function getHumanTypingDelay(char) {
+      let delay = Math.floor(Math.random() * 120) + 90;
+
+      if ([',', ';', '-'].includes(char)) {
+        delay += Math.floor(Math.random() * 200) + 250; 
+      } else if (['.', '!', '?', '\n'].includes(char)) {
+        delay += Math.floor(Math.random() * 300) + 450; 
+      } else if (char === ' ') {
+        delay += Math.floor(Math.random() * 80) + 60; 
+      }
+
+      if (Math.random() < 0.08) {
+        delay += Math.floor(Math.random() * 350) + 200;
+      }
+
+      return delay;
+    }
+
+    function startAutoTyping(textToType) {
+      if (isAutoTyping || isDeletingSequence || !textToType.trim()) return;
+      
+      const existingIndex = animationHistory.indexOf(textToType);
+      if (existingIndex !== -1) {
+        animationHistory.splice(existingIndex, 1);
+      }
+      animationHistory.unshift(textToType);
+      saveHistoryToLocalStorage();
+
+      const totalEstimatedTime = Math.max(5.0, (textToType.length * 0.12));
+      triggerFlowerBloom(totalEstimatedTime); 
+
+      syncTextToWordObjects("");
+      previousText = "";
+      isAutoTyping = true;
+
+      let index = 0;
+      let currentString = "";
+
+      function typeNextChar() {
+        if (index < textToType.length) {
+          const char = textToType[index];
+          currentString += char;
+          
+          const curColor = wordColors[currentString.length % wordColors.length];
+          spawnCursorTypingBurst(cursorPosition.x, cursorPosition.y, curColor);
+
+          syncTextToWordObjects(currentString);
+          previousText = currentString;
+          
+          index++;
+
+          const delay = getHumanTypingDelay(char);
+          setTimeout(typeNextChar, delay); 
+        } else {
+          isAutoTyping = false;
+        }
+      }
+
+      typeNextChar();
+    }
+
+    autoTypeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      customTextPrompt.value = ""; 
+      canvaModal.classList.add('show');
+    });
+
+    startAnimationBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const text = customTextPrompt.value;
+      if(text.trim()) {
+        targetAutoText = text;
+        canvaModal.classList.remove('show');
+        startAutoTyping(targetAutoText);
+      }
+    });
+
+    closeTextModalBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      canvaModal.classList.remove('show');
+    });
+
+    canvaModal.addEventListener('click', (e) => {
+      if (e.target === canvaModal) {
+        canvaModal.classList.remove('show');
+      }
+    });
+
+    // History Modal Controls & Rendering
+    historyBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      renderHistoryList();
+      historyModal.classList.add('show');
+    });
+
+    closeHistoryModalBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      historyModal.classList.remove('show');
+    });
+
+    clearHistoryBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      animationHistory = [];
+      saveHistoryToLocalStorage();
+      renderHistoryList();
+    });
+
+    historyModal.addEventListener('click', (e) => {
+      if (e.target === historyModal) {
+        historyModal.classList.remove('show');
+      }
+    });
+
+    function renderHistoryList() {
+      historyListContainer.innerHTML = "";
+      if (animationHistory.length === 0) {
+        historyListContainer.innerHTML = '<div class="history-empty">No history available yet.</div>';
+        return;
+      }
+
+      animationHistory.forEach((itemText) => {
+        const div = document.createElement('div');
+        div.className = 'history-item';
+        div.textContent = itemText;
+        div.title = itemText;
+        
+        div.addEventListener('click', () => {
+          historyModal.classList.remove('show');
+          startAutoTyping(itemText);
+        });
+
+        historyListContainer.appendChild(div);
+      });
+    }
+
+    function startWordDissolveDelete() {
+      if (isDeletingSequence || wordObjects.length === 0 || isAutoTyping) return;
+      isDeletingSequence = true;
+
+      let index = 0;
+
+      function dissolveNextWord() {
+        if (index < wordObjects.length) {
+          let targetObj = wordObjects[index];
+          targetObj.isDissolving = true;
+          targetObj.color = deleteColors[Math.floor(Math.random() * deleteColors.length)];
+
+          index++;
+          setTimeout(dissolveNextWord, 260); 
+        } else {
+          setTimeout(() => {
+            syncTextToWordObjects("");
+            previousText = "";
+            isDeletingSequence = false;
+          }, 320);
+        }
+      }
+
+      dissolveNextWord();
+    }
+
+    clearBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      startWordDissolveDelete();
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target.closest('.controls-container') || e.target.closest('.canva-modal-card')) return;
+      input.focus();
+    });
+
+    const primaryFont = '"Poppins", "Anek Bangla", sans-serif';
+
+    function getWrappedLines(wordsArr, maxWidth, fontSize) {
+      ctx.font = `800 ${fontSize}px ${primaryFont}`;
+      let lines = [];
+      let currentLine = [];
+      let currentLineWidth = 0;
+
+      for (let i = 0; i < wordsArr.length; i++) {
+        let wObj = wordsArr[i];
+        let wordWidth = ctx.measureText(wObj.text).width;
+        let spaceWidth = ctx.measureText(" ").width;
+
+        if (currentLineWidth + wordWidth <= maxWidth) {
+          currentLine.push(wObj);
+          currentLineWidth += wordWidth + spaceWidth;
+        } else {
+          if (currentLine.length > 0) lines.push(currentLine);
+          currentLine = [wObj];
+          currentLineWidth = wordWidth + spaceWidth;
+        }
+      }
+      if (currentLine.length > 0) lines.push(currentLine);
+      return lines;
+    }
+
+    let blinkTimer = 0;
+    let showCursor = true;
+    let lastTime = 0;
+
+    function renderLoop(timestamp) {
+      if (!lastTime) lastTime = timestamp;
+      const delta = timestamp - lastTime;
+      lastTime = timestamp;
+
+      blinkTimer += delta;
+      if (blinkTimer > 400) {
+        showCursor = !showCursor;
+        blinkTimer = 0;
+      }
+
+      ctx.clearRect(0, 0, width, height);
+
+      fireflies.forEach(f => { f.update(); f.draw(); });
+
+      for (let i = activeParticles.length - 1; i >= 0; i--) {
+        const p = activeParticles[i];
+        p.update(); p.draw();
+        if (p.life <= 0) activeParticles.splice(i, 1);
+      }
+
+      const maxWidth = width * 0.85;
+      const baseFontSize = Math.min(Math.max(width * 0.075, 24), 36);
+      const lineHeight = baseFontSize * 1.55;
+
+      const lines = getWrappedLines(wordObjects, maxWidth, baseFontSize);
+
+      ctx.save();
+      ctx.textBaseline = 'top';
+
+      lines.forEach((line, lineIndex) => {
+        let lineY = startY + (lineIndex * lineHeight);
+
+        ctx.font = `800 ${baseFontSize}px ${primaryFont}`;
+        let totalLineWidth = 0;
+        line.forEach(w => {
+          totalLineWidth += ctx.measureText(w.text + " ").width;
+        });
+
+        let currentX = (width - totalLineWidth) / 2;
+
+        line.forEach((wObj) => {
+          let wordWidth = ctx.measureText(wObj.text).width;
+
+          if (wObj.isDissolving) {
+            wObj.opacity -= 0.03; 
+            wObj.offsetY -= 0.8;   
+
+            if (wObj.opacity > 0.15 && Math.random() > 0.3) {
+              activeParticles.push(new DynamicParticle(
+                currentX + Math.random() * wordWidth, 
+                lineY + wObj.offsetY + Math.random() * baseFontSize, 
+                wObj.color, 
+                Math.random() > 0.5
+              ));
+            }
+          }
+
+          let alpha = Math.max(0, wObj.opacity);
+
+          if (alpha > 0) {
+            ctx.save();
+            ctx.translate(currentX, lineY + wObj.offsetY);
+
+            ctx.strokeStyle = `rgba(0, 0, 0, ${alpha * 0.9})`;
+            ctx.lineWidth = 5;
+            ctx.lineJoin = 'round';
+            ctx.strokeText(wObj.text, 0, 0);
+
+            ctx.shadowBlur = 12;
+            ctx.shadowColor = `rgba(${wObj.color.r}, ${wObj.color.g}, ${wObj.color.b}, ${alpha * 0.75})`;
+            ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.98})`;
+            ctx.fillText(wObj.text, 0, 0);
+
+            ctx.restore();
+          }
+
+          currentX += ctx.measureText(wObj.text + " ").width;
+        });
+
+        if (lineIndex === lines.length - 1) {
+          cursorPosition = { x: currentX, y: lineY };
+
+          if (showCursor && !isDeletingSequence) {
+            ctx.save();
+            ctx.font = `800 ${baseFontSize}px ${primaryFont}`;
+            ctx.fillStyle = `rgba(255, 255, 255, 0.9)`;
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = "rgba(255, 255, 255, 0.8)";
+            ctx.fillText("|", currentX - 3, lineY);
+            ctx.restore();
+          }
+        }
+      });
+
+      ctx.restore();
+
+      requestAnimationFrame(renderLoop);
+    }
+
+    document.fonts.ready.then(() => {
+      requestAnimationFrame(renderLoop);
+    });
+  </script>
+</body>
+</html>
