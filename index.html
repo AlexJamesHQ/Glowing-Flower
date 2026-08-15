@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
+  
+  <title>Glowing Flower</title>
+  
+  <meta name="title" content="Glowing Flower">
+  <meta name="description" content="Glowing Flower - Experience a stunning interactive glowing flower with smooth typing FX and ambient design.">
+  <meta name="theme-color" content="#1D1B20">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Glowing Flower">
+  <meta property="og:description" content="Glowing Flower - Experience a stunning interactive glowing flower with smooth typing FX and ambient design.">
+  <meta property="og:image" content="https://i.postimg.cc/qBGFpD6Z/ALEX-JAMES-GITHUB.png">
+  <meta property="og:image:secure_url" content="https://i.postimg.cc/qBGFpD6Z/ALEX-JAMES-GITHUB.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Glowing Flower">
+  <meta name="twitter:description" content="Glowing Flower - Experience a stunning interactive glowing flower with smooth typing FX and ambient design.">
+  <meta name="twitter:image" content="https://i.postimg.cc/qBGFpD6Z/ALEX-JAMES-GITHUB.png">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Glowing Flower">
+  <link rel="apple-touch-icon" href="https://i.postimg.cc/qBGFpD6Z/ALEX-JAMES-GITHUB.png">
+  <meta name="msapplication-TileImage" content="https://i.postimg.cc/qBGFpD6Z/ALEX-JAMES-GITHUB.png">
+  <meta name="msapplication-TileColor" content="#000000">
+  <link rel="manifest" href="manifest.json">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400..800;1,400..800&family=Space+Grotesk:wght@500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent !important;
+      outline: none !important;
+    }
+    body, html {
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      background-color: #030305;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      -webkit-user-select: none !important;
+      user-select: none !important;
+    }
+
+    body::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      pointer-events: none;
+      background: radial-gradient(circle, transparent 50%, rgba(2, 2, 5, 0.6) 100%);
+      z-index: 5;
+    }
+
+    .flower-frame {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      border: none;
+      z-index: 1;
+      pointer-events: none; 
+      opacity: 1;
+      filter: contrast(1.2) brightness(1.1);
+      transform-origin: bottom center;
+      will-change: transform, opacity;
+      animation: flowerGrowIn 5.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    @keyframes flowerGrowIn {
+      0% { transform: translateY(80px) scale(0.92); opacity: 0; }
+      40% { opacity: 0.4; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    body.keyboard-active .flower-frame {
+      transform: translateY(-8%) scale(0.95);
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      z-index: 2;
+      display: block;
+      pointer-events: auto;
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      touch-action: pan-y;
+      -webkit-user-select: none !important;
+      user-select: none !important;
+    }
+
+    body.keyboard-active canvas {
+      transform: translateY(-5%);
+    }
+
+    #textInput {
+      position: absolute;
+      top: 8vh;
+      left: 5%;
+      width: 90%;
+      height: 35vh;
+      background: transparent;
+      border: none;
+      color: transparent;
+      font-size: 32px;
+      font-weight: 800;
+      text-align: center;
+      z-index: 4;
+      caret-color: auto;
+      resize: none;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      word-break: break-word;
+      -webkit-user-select: text !important;
+      user-select: text !important;
+      pointer-events: auto;
+    }
+    #textInput:focus {
+      outline: none;
+    }
+
+    .controls-container {
+      position: fixed;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 99999;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      background: rgba(18, 18, 26, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 8px 14px;
+      border-radius: 35px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transition: bottom 0.2s ease;
+    }
+
+    body.keyboard-active .controls-container {
+      bottom: 12px;
+    }
+
+    .control-btn {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
+      cursor: pointer;
+      pointer-events: auto;
+      text-decoration: none;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .control-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .control-btn:active {
+      transform: scale(0.85);
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .control-btn span {
+      font-size: 20px;
+      color: rgba(255, 255, 255, 0.9);
+      transition: transform 0.2s ease;
+    }
+
+    #iosVoiceIndicator.active {
+      background: rgba(255, 0, 0, 0.35);
+      border-color: rgba(255, 0, 0, 0.7);
+      animation: iosSpringPulse 1.2s infinite ease-in-out;
+    }
+    @keyframes iosSpringPulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 0, 0, 0.4); }
+      50% { transform: scale(1.08); box-shadow: 0 0 18px rgba(255, 0, 0, 0.6); }
+      100% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 0, 0, 0.4); }
+    }
+
+    .canva-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      z-index: 100000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
+    }
+
+    .canva-modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .canva-modal-card {
+      width: 90%;
+      max-width: 360px;
+      max-height: 85vh;
+      background: rgba(18, 18, 26, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+      transform: scale(0.7) translateY(30px);
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+    }
+
+    .canva-modal-overlay.show .canva-modal-card {
+      transform: scale(1) translateY(0);
+    }
+
+    .canva-modal-title {
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .canva-modal-desc {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 13px;
+      line-height: 1.4;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .modal-textarea {
+      width: 100%;
+      height: 85px;
+      background: rgba(10, 10, 18, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 14px;
+      color: #fff;
+      padding: 12px;
+      font-family: inherit;
+      font-size: 14px;
+      resize: none;
+      margin-bottom: 12px;
+      -webkit-user-select: text !important;
+      user-select: text !important;
+    }
+
+    .setting-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      text-align: left;
+    }
+
+    .setting-label {
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .ios-select-trigger {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      color: #fff;
+      padding: 10px 14px;
+      font-family: inherit;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .ios-select-trigger:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .ios-picker-sheet {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 200000;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s;
+    }
+    .ios-picker-sheet.show {
+      opacity: 1; visibility: visible;
+    }
+    .ios-picker-card {
+      width: 100%;
+      max-width: 480px;
+      background: rgba(24, 24, 35, 0.95);
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 20px 16px 30px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .ios-picker-sheet.show .ios-picker-card {
+      transform: translateY(0);
+    }
+    .ios-picker-title {
+      color: rgba(255,255,255,0.6);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .ios-picker-option {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 12px 16px;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .ios-picker-option:active {
+      transform: scale(0.97);
+      background: rgba(255,255,255,0.15);
+    }
+    .ios-picker-option.selected {
+      border-color: rgba(130, 245, 215, 0.6);
+      background: rgba(130, 245, 215, 0.1);
+      color: #82f5d7;
+    }
+    .ios-radio-dot {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.4);
+      display: flex; justify-content: center; align-items: center;
+    }
+    .ios-picker-option.selected .ios-radio-dot {
+      border-color: #82f5d7;
+    }
+    .ios-picker-option.selected .ios-radio-dot::after {
+      content: '';
+      width: 8px; height: 8px;
+      background: #82f5d7;
+      border-radius: 50%;
+    }
+
+    .canva-modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .canva-btn {
+      flex: 1;
+      padding: 12px 0;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.25s;
+    }
+
+    .canva-btn-primary {
+      background: rgba(255, 255, 255, 0.9);
+      color: #030305;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+    }
+
+    .canva-btn-primary:active {
+      transform: scale(0.95);
+    }
+
+    .canva-btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .canva-btn-secondary:active {
+      transform: scale(0.95);
+    }
+
+    .history-list {
+      max-height: 180px;
+      overflow-y: auto;
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: left;
+      padding-right: 4px;
+    }
+    .history-list::-webkit-scrollbar { width: 4px; }
+    .history-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 4px; }
+
+    .history-item {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 10px 12px;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 13px;
+      cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .history-item:hover { background: rgba(255, 255, 255, 0.15); }
+    .history-empty { color: rgba(255, 255, 255, 0.4); font-size: 13px; text-align: center; padding: 15px 0; }
+  </style>
+</head>
+<body>
+
+  <iframe id="flowerFrame" class="flower-frame" src="https://dev-tanay.github.io/Animated-Flower/"></iframe>
+
+  <canvas id="particleCanvas"></canvas>
+  
+  <textarea id="textInput" autocomplete="off"></textarea>
+
+  <!-- Controls Bar (Video recording button removed) -->
+  <div class="controls-container">
+    <div id="autoTypeBtn" class="control-btn" title="Set & Play Animation">
+      <span class="material-symbols-outlined">play_arrow</span>
+    </div>
+    <div id="historyBtn" class="control-btn" title="Animation History">
+      <span class="material-symbols-outlined">schedule</span>
+    </div>
+    <div id="clearBtn" class="control-btn" title="Word By Word Clear">
+      <span class="material-symbols-outlined">backspace</span>
+    </div>
+    <div id="iosVoiceIndicator" class="control-btn" title="Voice Input (Bangla & English)">
+      <span class="material-symbols-outlined">mic</span>
+    </div>
+    <a id="portfolioBtn" class="control-btn" href="https://alex-james.vercel.app" target="_blank" title="Open Portfolio">
+      <span class="material-symbols-outlined">account_circle</span>
+    </a>
+    <div id="settingsBtn" class="control-btn" title="Design Studio Settings">
+      <span class="material-symbols-outlined">settings</span>
+    </div>
+  </div>
+
+  <!-- Canva Modal: Auto Typing Text Input -->
+  <div id="canvaModal" class="canva-modal-overlay">
+    <div class="canva-modal-card">
+      <div class="canva-modal-title">Enter Text for Animation</div>
+      <div class="canva-modal-desc">Type or paste your text (Bangla / English) here:</div>
+      <textarea id="customTextPrompt" class="modal-textarea" placeholder="Type or paste your text here..."></textarea>
+      <div class="canva-modal-actions">
+        <button id="startAnimationBtn" class="canva-btn canva-btn-primary">Play</button>
+        <button id="closeTextModalBtn" class="canva-btn canva-btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Design Studio Settings Modal -->
+  <div id="settingsModal" class="canva-modal-overlay">
+    <div class="canva-modal-card">
+      <div class="canva-modal-title">Settings</div>
+      <div class="canva-modal-desc">Select your preferred font and color style</div>
+      
+      <div class="setting-group">
+        <label class="setting-label">English Font Family</label>
+        <div id="fontTrigger" class="ios-select-trigger">
+          <span id="fontTriggerText">Plus Jakarta Sans</span>
+          <span class="material-symbols-outlined" style="font-size:18px;">expand_more</span>
+        </div>
+      </div>
+
+      <div class="setting-group">
+        <label class="setting-label">Bangla Font Family</label>
+        <div id="banglaFontTrigger" class="ios-select-trigger">
+          <span id="banglaFontTriggerText">SolaimanLipi Style</span>
+          <span class="material-symbols-outlined" style="font-size:18px;">expand_more</span>
+        </div>
+      </div>
+
+      <div class="setting-group">
+        <label class="setting-label">Text Color Style</label>
+        <div id="textColorTrigger" class="ios-select-trigger">
+          <span id="textColorTriggerText">Multi-Color (Rainbow)</span>
+          <span class="material-symbols-outlined" style="font-size:18px;">expand_more</span>
+        </div>
+      </div>
+
+      <div class="setting-group">
+        <label class="setting-label">Heart & Particle Color</label>
+        <div id="heartColorTrigger" class="ios-select-trigger">
+          <span id="heartColorTriggerText">Dynamic Heart</span>
+          <span class="material-symbols-outlined" style="font-size:18px;">expand_more</span>
+        </div>
+      </div>
+
+      <div class="setting-group">
+        <label class="setting-label">Typing Speed</label>
+        <div id="speedTrigger" class="ios-select-trigger">
+          <span id="speedTriggerText">Normal Speed</span>
+          <span class="material-symbols-outlined" style="font-size:18px;">expand_more</span>
+        </div>
+      </div>
+
+      <div class="setting-group">
+        <label class="setting-label">Delete Animation Style</label>
+        <div id="deleteAnimTrigger" class="ios-select-trigger">
+          <span id="deleteAnimTriggerText">Smooth Dissolve & Float</span>
+          <span class="material-symbols-outlined" style="font-size:18px;">expand_more</span>
+        </div>
+      </div>
+
+      <div class="canva-modal-actions">
+        <button id="saveSettingsBtn" class="canva-btn canva-btn-primary">Save</button>
+        <button id="closeSettingsBtn" class="canva-btn canva-btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- iOS Picker Bottom Sheet Modal -->
+  <div id="iosPickerSheet" class="ios-picker-sheet">
+    <div class="ios-picker-card">
+      <div id="iosPickerTitle" class="ios-picker-title">Select Option</div>
+      <div id="iosPickerOptionsList" style="display:flex; flex-direction:column; gap:8px; max-height:50vh; overflow-y:auto;"></div>
+      <button id="iosPickerCloseBtn" class="canva-btn canva-btn-secondary" style="margin-top:10px;">Done</button>
+    </div>
+  </div>
+
+  <!-- Animation History Modal -->
+  <div id="historyModal" class="canva-modal-overlay">
+    <div class="canva-modal-card">
+      <div class="canva-modal-title">Animation History</div>
+      <div class="canva-modal-desc">Click any previous text to replay animation:</div>
+      <div id="historyListContainer" class="history-list"></div>
+      <div class="canva-modal-actions">
+        <button id="clearHistoryBtn" class="canva-btn canva-btn-primary" style="background: rgba(255, 255, 255, 0.9); color: #030305;">Clear History</button>
+        <button id="closeHistoryModalBtn" class="canva-btn canva-btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('contextmenu', (e) => { e.preventDefault(); });
+
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+    const input = document.getElementById('textInput');
+    const iosVoiceIndicator = document.getElementById('iosVoiceIndicator');
+    const clearBtn = document.getElementById('clearBtn');
+    const autoTypeBtn = document.getElementById('autoTypeBtn');
+    const historyBtn = document.getElementById('historyBtn');
+    const settingsBtn = document.getElementById('settingsBtn');
+    const flowerFrame = document.getElementById('flowerFrame');
+
+    const canvaModal = document.getElementById('canvaModal');
+    const customTextPrompt = document.getElementById('customTextPrompt');
+    const startAnimationBtn = document.getElementById('startAnimationBtn');
+    const closeTextModalBtn = document.getElementById('closeTextModalBtn');
+
+    const settingsModal = document.getElementById('settingsModal');
+    const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+    const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+
+    const iosPickerSheet = document.getElementById('iosPickerSheet');
+    const iosPickerTitle = document.getElementById('iosPickerTitle');
+    const iosPickerOptionsList = document.getElementById('iosPickerOptionsList');
+    const iosPickerCloseBtn = document.getElementById('iosPickerCloseBtn');
+
+    const fontTrigger = document.getElementById('fontTrigger');
+    const fontTriggerText = document.getElementById('fontTriggerText');
+    const banglaFontTrigger = document.getElementById('banglaFontTrigger');
+    const banglaFontTriggerText = document.getElementById('banglaFontTriggerText');
+    const textColorTrigger = document.getElementById('textColorTrigger');
+    const textColorTriggerText = document.getElementById('textColorTriggerText');
+    const heartColorTrigger = document.getElementById('heartColorTrigger');
+    const heartColorTriggerText = document.getElementById('heartColorTriggerText');
+    const speedTrigger = document.getElementById('speedTrigger');
+    const speedTriggerText = document.getElementById('speedTriggerText');
+    const deleteAnimTrigger = document.getElementById('deleteAnimTrigger');
+    const deleteAnimTriggerText = document.getElementById('deleteAnimTriggerText');
+
+    const historyModal = document.getElementById('historyModal');
+    const historyListContainer = document.getElementById('historyListContainer');
+    const closeHistoryModalBtn = document.getElementById('closeHistoryModalBtn');
+    const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+
+    let width, height, startY; 
+    let dpr = window.devicePixelRatio || 1;
+    let targetAutoText = ""; 
+    
+    let scrollOffset = 0, maxScrollOffset = 0, isDragging = false, startTouchY = 0, startScrollOffset = 0;
+    let targetInterval = 1000 / 60;
+    let lastFrameTime = 0;
+
+    let currentFont = localStorage.getItem('alex_saved_font') || "'Plus Jakarta Sans', sans-serif";
+    let currentBanglaFont = localStorage.getItem('alex_saved_bfont') || "'SolaimanLipi', sans-serif";
+    let selectedTextColor = localStorage.getItem('alex_saved_tcolor') || "multi";
+    let selectedHeartColor = localStorage.getItem('alex_saved_hcolor') || "dynamic";
+    let typingSpeedMultiplier = parseFloat(localStorage.getItem('alex_saved_speed') || "1.0");
+    let deleteAnimStyle = localStorage.getItem('alex_saved_danim') || "dissolve";
+
+    input.style.fontFamily = currentFont;
+
+    const fontOptions = [
+      { label: 'Plus Jakarta Sans', value: "'Plus Jakarta Sans', sans-serif" },
+      { label: 'Orbitron Robot Cyber Style', value: "'Orbitron', sans-serif" },
+      { label: 'Syne Futuristic Style', value: "'Syne', sans-serif" },
+      { label: 'Audiowide Sci-Fi Robot', value: "'Audiowide', cursive" },
+      { label: 'VT323 Retro Terminal Matrix', value: "'VT323', monospace" },
+      { label: 'Press Start 2P 8-Bit Arcade', value: "'Press Start 2P', cursive" },
+      { label: 'Space Grotesk', value: "'Space Grotesk', sans-serif" },
+      { label: 'JetBrains Mono', value: "'JetBrains Mono', monospace" },
+      { label: 'Cinzel Classic Serif', value: "'Cinzel', serif" },
+      { label: 'Playfair Display', value: "'Playfair Display', serif" },
+      { label: 'Montserrat', value: "'Montserrat', sans-serif" },
+      { label: 'Poppins', value: "'Poppins', sans-serif" },
+      { label: 'Bebas Neue Bold Display', value: "'Bebas Neue', cursive" },
+      { label: 'Abril Fatface', value: "'Abril Fatface', serif" },
+      { label: 'Righteous', value: "'Righteous', cursive" },
+      { label: 'Russo One', value: "'Russo One', sans-serif" },
+      { label: 'Lobster', value: "'Lobster', cursive" },
+      { label: 'Dancing Script Cursive', value: "'Dancing Script', cursive" },
+      { label: 'Pacifico Fun', value: "'Pacifico', cursive" },
+      { label: 'Great Vibes Elegant', value: "'Great Vibes', cursive" },
+      { label: 'Italiana Canva Luxury', value: "'Italiana', serif" },
+      { label: 'Prata Canva Editorial', value: "'Prata', serif" },
+      { label: 'Marcellus Roman Style', value: "'Marcellus', serif" },
+      { label: 'Parisienne French Script', value: "'Parisienne', cursive" },
+      { label: 'Alex Brush Signature Script', value: "'Alex Brush', cursive" }
+    ];
+
+    const banglaFontOptions = [
+      { label: 'SolaimanLipi Style', value: "'SolaimanLipi', sans-serif" },
+      { label: 'Kalpurush Classic Bangla', value: "'Kalpurush', sans-serif" },
+      { label: 'Hind Siliguri Modern Bangla', value: "'Hind Siliguri', sans-serif" },
+      { label: 'Anek Bangla Stylish Sans', value: "'Anek Bangla', sans-serif" },
+      { label: 'Noto Serif Bengali', value: "'Noto Serif Bengali', serif" },
+      { label: 'Siyam Rupali', value: "'Siyam Rupali', sans-serif" },
+      { label: 'Mina Round Bangla', value: "'Mina', sans-serif" },
+      { label: 'Galada Calligraphy Bangla', value: "'Galada', cursive" },
+      { label: 'Atma Playful Bangla', value: "'Atma', cursive" },
+      { label: 'Baloo Da 2 Cute Bangla', value: "'Baloo Da 2', cursive" },
+      { label: 'Tiro Bangla Traditional Serif', value: "'Tiro Bangla', serif" },
+      { label: 'Ekushey Lohit', value: "'Ekushey Lohit', sans-serif" },
+      { label: 'Nikosh Standard Official', value: "'Nikosh', sans-serif" },
+      { label: 'Rupali Classic Type', value: "'Rupali', sans-serif" },
+      { label: 'Amita Bangla Stylish', value: "'Amita', cursive" }
+    ];
+
+    const textColorOptions = [
+      { label: 'Multi-Color', value: 'multi' },
+      { label: 'Neon Pink', value: '#ff8cc8' },
+      { label: 'Sky Blue', value: '#a0d2ff' },
+      { label: 'Royal Gold', value: '#ffd782' },
+      { label: 'Pure White', value: '#ffffff' },
+      { label: 'Emerald Mint', value: '#82f5d7' },
+      { label: 'Sunset Orange', value: '#ff9e60' }
+    ];
+
+    const heartColorOptions = [
+      { label: 'Dynamic Heart', value: 'dynamic' },
+      { label: 'Romantic Red', value: '#ff5a78' },
+      { label: 'Magic Purple', value: '#c8a0ff' },
+      { label: 'Mint Teal', value: '#82f5d7' },
+      { label: 'Sunny Yellow', value: '#ffe66d' },
+      { label: 'Pure White Glow', value: '#ffffff' }
+    ];
+
+    const speedOptions = [
+      { label: 'Normal Speed', value: 'normal' },
+      { label: 'Fast Speed', value: 'fast' },
+      { label: 'Slow Speed', value: 'slow' }
+    ];
+
+    const deleteAnimOptions = [
+      { label: 'Smooth Dissolve & Float', value: 'dissolve' },
+      { label: 'Instant Burst Wipe', value: 'burst' },
+      { label: 'Fade Out Down', value: 'fade' },
+      { label: 'Canva Fade Dissolve', value: 'canva_fade' },
+      { label: 'Smooth Whirlpool Zoom Out', value: 'whirlpool' }
+    ];
+
+    function initTriggerLabels() {
+      const fObj = fontOptions.find(o => o.value === currentFont);
+      if (fObj) fontTriggerText.textContent = fObj.label;
+      const bfObj = banglaFontOptions.find(o => o.value === currentBanglaFont);
+      if (bfObj) banglaFontTriggerText.textContent = bfObj.label;
+      const tObj = textColorOptions.find(o => o.value === selectedTextColor);
+      if (tObj) textColorTriggerText.textContent = tObj.label;
+      const hObj = heartColorOptions.find(o => o.value === selectedHeartColor);
+      if (hObj) heartColorTriggerText.textContent = hObj.label;
+      const sVal = typingSpeedMultiplier === 0.5 ? 'fast' : (typingSpeedMultiplier === 2.0 ? 'slow' : 'normal');
+      const sObj = speedOptions.find(o => o.value === sVal);
+      if (sObj) speedTriggerText.textContent = sObj.label;
+      const dObj = deleteAnimOptions.find(o => o.value === deleteAnimStyle);
+      if (dObj) deleteAnimTriggerText.textContent = dObj.label;
+    }
+    initTriggerLabels();
+
+    function openIosPicker(title, options, currentValue, onSelectCallback) {
+      iosPickerTitle.textContent = title;
+      iosPickerOptionsList.innerHTML = '';
+      options.forEach(opt => {
+        const div = document.createElement('div');
+        div.className = 'ios-picker-option' + (opt.value === currentValue ? ' selected' : '');
+        div.innerHTML = `<span>${opt.label}</span><div class="ios-radio-dot"></div>`;
+        div.addEventListener('click', () => {
+          onSelectCallback(opt);
+          iosPickerSheet.classList.remove('show');
+        });
+        iosPickerOptionsList.appendChild(div);
+      });
+      iosPickerSheet.classList.add('show');
+    }
+
+    fontTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openIosPicker('Select English Font Style', fontOptions, currentFont, (selected) => {
+        currentFont = selected.value;
+        fontTriggerText.textContent = selected.label;
+      });
+    });
+
+    banglaFontTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openIosPicker('Select Bangla Font Style', banglaFontOptions, currentBanglaFont, (selected) => {
+        currentBanglaFont = selected.value;
+        banglaFontTriggerText.textContent = selected.label;
+      });
+    });
+
+    textColorTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openIosPicker('Select Text Color Style', textColorOptions, selectedTextColor, (selected) => {
+        selectedTextColor = selected.value;
+        textColorTriggerText.textContent = selected.label;
+      });
+    });
+
+    heartColorTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openIosPicker('Select Particle Color', heartColorOptions, selectedHeartColor, (selected) => {
+        selectedHeartColor = selected.value;
+        heartColorTriggerText.textContent = selected.label;
+      });
+    });
+
+    speedTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const currentSpeedVal = typingSpeedMultiplier === 0.5 ? 'fast' : (typingSpeedMultiplier === 2.0 ? 'slow' : 'normal');
+      openIosPicker('Select Typing Speed', speedOptions, currentSpeedVal, (selected) => {
+        typingSpeedMultiplier = selected.value === 'fast' ? 0.5 : (selected.value === 'slow' ? 2.0 : 1.0);
+        speedTriggerText.textContent = selected.label;
+      });
+    });
+
+    deleteAnimTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openIosPicker('Select Delete Animation Style', deleteAnimOptions, deleteAnimStyle, (selected) => {
+        deleteAnimStyle = selected.value;
+        deleteAnimTriggerText.textContent = selected.label;
+      });
+    });
+
+    iosPickerCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); iosPickerSheet.classList.remove('show'); });
+    iosPickerSheet.addEventListener('click', (e) => { if(e.target === iosPickerSheet) iosPickerSheet.classList.remove('show'); });
+
+    settingsBtn.addEventListener('click', (e) => { e.stopPropagation(); settingsModal.classList.add('show'); });
+    closeSettingsBtn.addEventListener('click', (e) => { e.stopPropagation(); settingsModal.classList.remove('show'); });
+    
+    saveSettingsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      input.style.fontFamily = currentFont;
+      
+      localStorage.setItem('alex_saved_font', currentFont);
+      localStorage.setItem('alex_saved_bfont', currentBanglaFont);
+      localStorage.setItem('alex_saved_tcolor', selectedTextColor);
+      localStorage.setItem('alex_saved_hcolor', selectedHeartColor);
+      localStorage.setItem('alex_saved_speed', typingSpeedMultiplier);
+      localStorage.setItem('alex_saved_danim', deleteAnimStyle);
+
+      settingsModal.classList.remove('show');
+      syncTextToWordObjects(input.value);
+    });
+
+    settingsModal.addEventListener('click', (e) => { if (e.target === settingsModal) settingsModal.classList.remove('show'); });
+
+    function detectRefreshRate() {
+      let rafCount = 0;
+      let startTime = performance.now();
+      function checkFPS(now) {
+        rafCount++;
+        let elapsed = now - startTime;
+        if (elapsed < 1000) {
+          requestAnimationFrame(checkFPS);
+        } else {
+          let calculatedFps = Math.round((rafCount * 1000) / elapsed);
+          targetInterval = calculatedFps > 85 ? (1000 / 120) : (1000 / 60);
+        }
+      }
+      requestAnimationFrame(checkFPS);
+    }
+    detectRefreshRate();
+
+    let animationHistory = [];
+    try {
+      const savedHistory = localStorage.getItem('alex_animation_history');
+      if (savedHistory) animationHistory = JSON.parse(savedHistory);
+    } catch(e) {}
+
+    function saveHistoryToLocalStorage() {
+      try { localStorage.setItem('alex_animation_history', JSON.stringify(animationHistory)); } catch(e) {}
+    }
+
+    function resize() {
+      dpr = window.devicePixelRatio || 1;
+      width = window.innerWidth;
+      height = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+
+      ctx.scale(dpr, dpr);
+      startY = Math.max(height * 0.10, 60);
+
+      input.style.top = startY + 'px';
+      input.style.left = (width * 0.075) + 'px';
+      input.style.width = (width * 0.85) + 'px';
+      
+      const baseFontSize = Math.min(Math.max(width * 0.08, 24), 42);
+      input.style.fontSize = baseFontSize + 'px';
+    }
+    
+    window.addEventListener('resize', resize);
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', resize);
+    resize();
+
+    function checkKeyboardState() {
+      if (window.visualViewport && window.visualViewport.height < window.innerHeight * 0.75) {
+        document.body.classList.add('keyboard-active');
+      } else {
+        document.body.classList.remove('keyboard-active');
+      }
+    }
+    input.addEventListener('focus', () => { document.body.classList.add('keyboard-active'); });
+    input.addEventListener('blur', () => { document.body.classList.remove('keyboard-active'); });
+    window.visualViewport?.addEventListener('resize', checkKeyboardState);
+
+    canvas.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        isDragging = true;
+        startTouchY = e.touches[0].clientY;
+        startScrollOffset = scrollOffset;
+      }
+    }, { passive: true });
+
+    canvas.addEventListener('touchmove', (e) => {
+      if (!isDragging || e.touches.length === 0) return;
+      const deltaY = e.touches[0].clientY - startTouchY;
+      scrollOffset = Math.max(-50, Math.min(maxScrollOffset + 50, startScrollOffset - deltaY));
+    }, { passive: true });
+
+    canvas.addEventListener('touchend', () => { isDragging = false; });
+    canvas.addEventListener('mousedown', (e) => { isDragging = true; startTouchY = e.clientY; startScrollOffset = scrollOffset; });
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const deltaY = e.clientY - startTouchY;
+      scrollOffset = Math.max(-50, Math.min(maxScrollOffset + 50, startScrollOffset - deltaY));
+    });
+    window.addEventListener('mouseup', () => { isDragging = false; });
+
+    let userText = "";
+    let previousText = "";
+    let wordObjects = [];
+    let isDeletingSequence = false;
+    let isAutoTyping = false;
+    let cursorPosition = { x: width / 2, y: startY };
+
+    function isBanglaText(text) {
+      return /[\u0980-\u09FF]/.test(text);
+    }
+
+    const defaultWordColors = [
+      {r: 255, g: 140, b: 200}, {r: 160, g: 210, b: 255}, 
+      {r: 255, g: 215, b: 130}, {r: 200, g: 160, b: 255}, {r: 130, g: 245, b: 215}
+    ];
+
+    const deleteColors = [
+      {r: 255, g: 90,  b: 120},  
+      {r: 255, g: 140, b: 160}, 
+      {r: 230, g: 100, b: 230}  
+    ];
+
+    function getWordColor(idx) {
+      if (selectedTextColor !== "multi") {
+        let hex = selectedTextColor;
+        let bigint = parseInt(hex.replace('#',''), 16);
+        return { r: (bigint >> 16) & 255, g: (bigint >> 8) & 255, b: bigint & 255 };
+      }
+      return defaultWordColors[idx % defaultWordColors.length];
+    }
+
+    function getHeartColor() {
+      if (selectedHeartColor !== "dynamic") {
+        let hex = selectedHeartColor;
+        let bigint = parseInt(hex.replace('#',''), 16);
+        return { r: (bigint >> 16) & 255, g: (bigint >> 8) & 255, b: bigint & 255 };
+      }
+      return { r: 255, g: Math.floor(Math.random() * 150) + 100, b: 200 };
+    }
+
+    function drawGlowingHeart(ctx, x, y, size, color, alpha) {
+      ctx.save();
+      ctx.translate(x, y);
+      const radGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, size * 2.5);
+      radGrad.addColorStop(0, `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha * 0.9})`);
+      radGrad.addColorStop(0.5, `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha * 0.4})`);
+      radGrad.addColorStop(1, `rgba(${color.r}, ${color.g}, ${color.b}, 0)`);
+      
+      ctx.fillStyle = radGrad;
+      ctx.beginPath();
+      ctx.arc(0, 0, size * 2.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.95})`;
+      let s = size / 3;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(-3 * s, -3 * s, -6 * s, 1 * s, 0, 6 * s);
+      ctx.bezierCurveTo(6 * s, 1 * s, 3 * s, -3 * s, 0, 0);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    const fireflies = [];
+    const fireflyCount = 35; 
+
+    class Firefly {
+      constructor() { this.reset(); }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height; 
+        this.size = Math.random() * 2.2 + 1.2; 
+        this.alpha = Math.random(); 
+        this.maxAlpha = Math.random() * 0.8 + 0.2; 
+        this.pulseSpeed = Math.random() * 0.012 + 0.003; 
+        this.angle = Math.random() * Math.PI * 2;
+        this.orbitRadius = Math.random() * 50 + 20;
+        this.centerX = Math.random() * width;
+        this.centerY = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.25;
+        this.vy = (Math.random() - 0.5) * 0.25;
+        this.color = Math.random() > 0.2 ? {r: 255, g: 240, b: 130} : {r: 210, g: 255, b: 160};
+      }
+      update(flowerProgress) {
+        if (flowerProgress < 0.2) {
+          this.alpha = 0;
+          return;
+        }
+
+        this.angle += 0.01;
+        this.centerX += this.vx;
+        this.centerY += this.vy;
+
+        if (this.centerX < 10 || this.centerX > width - 10) this.vx = -this.vx;
+        if (this.centerY < 10 || this.centerY > height - 10) this.vy = -this.vy;
+
+        this.x = this.centerX + Math.cos(this.angle) * this.orbitRadius;
+        this.y = this.centerY + Math.sin(this.angle * 1.3) * (this.orbitRadius * 0.6);
+
+        this.alpha += this.pulseSpeed;
+        if (this.alpha > this.maxAlpha || this.alpha < 0.02) {
+          this.pulseSpeed = -this.pulseSpeed;
+        }
+      }
+      draw() {
+        if (this.alpha <= 0) return;
+        const currentAlpha = Math.max(0, Math.min(1, this.alpha));
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.shadowBlur = 15 * currentAlpha;
+        ctx.shadowColor = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, 0.95)`;
+        ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${currentAlpha})`;
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < fireflyCount; i++) fireflies.push(new Firefly());
+
+    const activeParticles = [];
+
+    class DynamicParticle {
+      constructor(x, y, color, isHeart = false) {
+        this.x = x + (Math.random() - 0.5) * 12;
+        this.y = y + (Math.random() - 0.5) * 8;
+        const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.2;
+        const speed = Math.random() * 2.2 + 0.8; 
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed - 0.5;
+        this.size = isHeart ? (Math.random() * 2.8 + 2.8) : (Math.random() * 2 + 1); 
+        this.color = color;
+        this.isHeart = isHeart;
+        this.life = 1.0;
+        this.decay = Math.random() * 0.025 + 0.015; 
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vx *= 0.96;
+        this.vy *= 0.96;
+        this.life -= this.decay;
+      }
+      draw() {
+        if (this.life <= 0) return;
+        if (this.isHeart) {
+          drawGlowingHeart(ctx, this.x, this.y, this.size, this.color, this.life);
+        } else {
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${this.life * 0.9})`;
+          ctx.shadowBlur = 6 * this.life;
+          ctx.shadowColor = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, 0.8)`;
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+    }
+
+    function spawnCursorTypingBurst(x, y, color) {
+      for (let i = 0; i < 4; i++) {
+        activeParticles.push(new DynamicParticle(x, y + 15, color, Math.random() > 0.4));
+      }
+    }
+
+    function syncTextToWordObjects(text) {
+      userText = text;
+      if (input.value !== text) input.value = text;
+      let words = text.trim() ? text.trim().split(/\s+/) : [];
+      wordObjects = words.map((w, idx) => ({
+        text: w,
+        opacity: 1.0,
+        offsetY: 0,
+        scale: 1.0,
+        rotation: 0,
+        isDissolving: false,
+        color: getWordColor(idx),
+        isBangla: isBanglaText(w)
+      }));
+    }
+
+    input.addEventListener('input', () => {
+      isDeletingSequence = false;
+      const newText = input.value;
+      if (newText.length > previousText.length) {
+        spawnCursorTypingBurst(cursorPosition.x, cursorPosition.y, getWordColor(newText.length));
+      } else if (newText.length < previousText.length) {
+        const randDeleteColor = deleteColors[Math.floor(Math.random() * deleteColors.length)];
+        spawnCursorTypingBurst(cursorPosition.x, cursorPosition.y, randDeleteColor);
+      }
+      syncTextToWordObjects(newText);
+      previousText = newText;
+    });
+
+    // অফলাইন ভয়েস ইনপুট হ্যান্ডলিং (বাংলা এবং ইংরেজি দুটোই সাপোর্ট করবে)
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = true; // রিয়েল-টাইমে লেখার জন্য ট্রু করা হয়েছে
+      recognition.lang = 'bn-BD'; // ডিফল্ট বাংলা সেট করা, প্রয়োজনে ইংরেজি বা অন্য ভাষাও স্বয়ংক্রিয়ভাবে ডিটেক্ট করতে পারে
+
+      iosVoiceIndicator.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        try { 
+          recognition.start(); 
+          iosVoiceIndicator.classList.add('active'); 
+        } catch (err) {}
+      });
+
+      recognition.onresult = (event) => {
+        let interimTranscript = '';
+        let finalTranscript = '';
+
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript;
+          } else {
+            interimTranscript += event.results[i][0].transcript;
+          }
+        }
+
+        const transcript = finalTranscript || interimTranscript;
+        if (transcript) {
+          const updatedText = input.value ? input.value + " " + transcript : transcript;
+          syncTextToWordObjects(updatedText);
+          previousText = updatedText;
+          
+          const existingIndex = animationHistory.indexOf(updatedText);
+          if (existingIndex !== -1) animationHistory.splice(existingIndex, 1);
+          animationHistory.unshift(updatedText);
+          saveHistoryToLocalStorage();
+          
+          spawnCursorTypingBurst(cursorPosition.x, cursorPosition.y, getWordColor(updatedText.length));
+        }
+      };
+
+      recognition.onerror = () => { iosVoiceIndicator.classList.remove('active'); };
+      recognition.onend = () => { iosVoiceIndicator.classList.remove('active'); };
+    } else {
+      iosVoiceIndicator.style.display = 'none'; // ব্রাউজার সাপোর্ট না করলে আইকন হাইড থাকবে
+    }
+
+    function triggerFlowerBloom(durationSec = 5.5) {
+      flowerFrame.style.animation = 'none';
+      flowerFrame.offsetHeight; 
+      flowerFrame.style.animation = `flowerGrowIn ${durationSec}s cubic-bezier(0.16, 1, 0.3, 1) forwards`;
+    }
+
+    function getHumanTypingDelay(char) {
+      let delay = (Math.floor(Math.random() * 120) + 90) * typingSpeedMultiplier;
+      if ([',', ';', '-'].includes(char)) delay += 150; 
+      else if (['.', '!', '?', '\n'].includes(char)) delay += 250; 
+      else if (char === ' ') delay += 40; 
+      return delay;
+    }
+
+    function startAutoTyping(textToType) {
+      if (isAutoTyping || isDeletingSequence || !textToType.trim()) return;
+      const existingIndex = animationHistory.indexOf(textToType);
+      if (existingIndex !== -1) animationHistory.splice(existingIndex, 1);
+      animationHistory.unshift(textToType);
+      saveHistoryToLocalStorage();
+
+      triggerFlowerBloom(Math.max(5.0, (textToType.length * 0.12))); 
+      syncTextToWordObjects("");
+      previousText = "";
+      isAutoTyping = true;
+
+      let index = 0;
+      let currentString = "";
+
+      function typeNextChar() {
+        if (index < textToType.length) {
+          const char = textToType[index];
+          currentString += char;
+          spawnCursorTypingBurst(cursorPosition.x, cursorPosition.y, getWordColor(currentString.length));
+          syncTextToWordObjects(currentString);
+          previousText = currentString;
+          index++;
+          setTimeout(typeNextChar, getHumanTypingDelay(char)); 
+        } else {
+          isAutoTyping = false;
+        }
+      }
+      typeNextChar();
+    }
+
+    autoTypeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      customTextPrompt.value = ""; 
+      canvaModal.classList.add('show');
+    });
+
+    startAnimationBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const text = customTextPrompt.value;
+      if(text.trim()) {
+        targetAutoText = text;
+        canvaModal.classList.remove('show');
+        startAutoTyping(targetAutoText);
+      }
+    });
+
+    closeTextModalBtn.addEventListener('click', (e) => { e.stopPropagation(); canvaModal.classList.remove('show'); });
+    canvaModal.addEventListener('click', (e) => { if (e.target === canvaModal) canvaModal.classList.remove('show'); });
+
+    historyBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      renderHistoryList();
+      historyModal.classList.add('show');
+    });
+
+    closeHistoryModalBtn.addEventListener('click', (e) => { e.stopPropagation(); historyModal.classList.remove('show'); });
+    clearHistoryBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      animationHistory = [];
+      saveHistoryToLocalStorage();
+      renderHistoryList();
+    });
+    historyModal.addEventListener('click', (e) => { if (e.target === historyModal) historyModal.classList.remove('show'); });
+
+    function renderHistoryList() {
+      historyListContainer.innerHTML = "";
+      if (animationHistory.length === 0) {
+        historyListContainer.innerHTML = '<div class="history-empty">No history available yet.</div>';
+        return;
+      }
+      animationHistory.forEach((itemText) => {
+        const div = document.createElement('div');
+        div.className = 'history-item';
+        div.textContent = itemText;
+        div.title = itemText;
+        div.addEventListener('click', () => {
+          historyModal.classList.remove('show');
+          startAutoTyping(itemText);
+        });
+        historyListContainer.appendChild(div);
+      });
+    }
+
+    function startWordDissolveDelete() {
+      if (isDeletingSequence || wordObjects.length === 0 || isAutoTyping) return;
+      isDeletingSequence = true;
+
+      if (deleteAnimStyle === 'burst') {
+        wordObjects.forEach((wObj) => {
+          for(let k=0; k<6; k++) {
+            activeParticles.push(new DynamicParticle(width/2 + (Math.random()-0.5)*200, height/2 + (Math.random()-0.5)*100, getHeartColor(), true));
+          }
+        });
+        setTimeout(() => {
+          syncTextToWordObjects("");
+          previousText = "";
+          isDeletingSequence = false;
+        }, 150);
+      } else if (deleteAnimStyle === 'fade') {
+        let fadeStep = () => {
+          let allGone = true;
+          wordObjects.forEach(wObj => {
+            wObj.opacity -= 0.08;
+            wObj.offsetY += 1.5;
+            if(wObj.opacity > 0) allGone = false;
+          });
+          if(!allGone) {
+            setTimeout(fadeStep, 30);
+          } else {
+            syncTextToWordObjects("");
+            previousText = "";
+            isDeletingSequence = false;
+          }
+        };
+        fadeStep();
+      } else if (deleteAnimStyle === 'canva_fade') {
+        let step = () => {
+          let allGone = true;
+          wordObjects.forEach(wObj => {
+            wObj.opacity -= 0.05;
+            wObj.scale += 0.02;
+            if(wObj.opacity > 0) allGone = false;
+          });
+          if(!allGone) {
+            setTimeout(step, 25);
+          } else {
+            syncTextToWordObjects("");
+            previousText = "";
+            isDeletingSequence = false;
+          }
+        };
+        step();
+      } else if (deleteAnimStyle === 'whirlpool') {
+        let step = () => {
+          let allGone = true;
+          wordObjects.forEach(wObj => {
+            wObj.opacity -= 0.04;
+            wObj.scale -= 0.03;
+            wObj.rotation += 0.1;
+            if(wObj.opacity > 0) allGone = false;
+          });
+          if(!allGone) {
+            setTimeout(step, 25);
+          } else {
+            syncTextToWordObjects("");
+            previousText = "";
+            isDeletingSequence = false;
+          }
+        };
+        step();
+      } else {
+        let index = 0;
+        function dissolveNextWord() {
+          if (index < wordObjects.length) {
+            let targetObj = wordObjects[index];
+            targetObj.isDissolving = true;
+            targetObj.color = deleteColors[Math.floor(Math.random() * deleteColors.length)];
+            index++;
+            setTimeout(dissolveNextWord, 260); 
+          } else {
+            setTimeout(() => {
+              syncTextToWordObjects("");
+              previousText = "";
+              isDeletingSequence = false;
+            }, 320);
+          }
+        }
+        dissolveNextWord();
+      }
+    }
+
+    clearBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      startWordDissolveDelete();
+    });
+
+    document.querySelectorAll('.control-btn').forEach(btn => {
+      btn.addEventListener('mousedown', (e) => { e.preventDefault(); });
+      btn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        btn.click();
+      }, { passive: false });
+    });
+
+    function getWordFont(wObj) {
+      return wObj.isBangla ? currentBanglaFont : currentFont;
+    }
+
+    function getWrappedLines(wordsArr, maxWidth, fontSize) {
+      let lines = [];
+      let currentLine = [];
+      let currentLineWidth = 0;
+
+      for (let i = 0; i < wordsArr.length; i++) {
+        let wObj = wordsArr[i];
+        let fontName = getWordFont(wObj);
+        ctx.font = `800 ${fontSize}px ${fontName}`;
+        
+        let wordWidth = ctx.measureText(wObj.text).width;
+        ctx.font = `800 ${fontSize}px ${currentFont}`;
+        let spaceWidth = ctx.measureText(" ").width;
+
+        if (currentLineWidth + wordWidth <= maxWidth) {
+          currentLine.push(wObj);
+          currentLineWidth += wordWidth + spaceWidth;
+        } else {
+          if (currentLine.length > 0) lines.push(currentLine);
+          currentLine = [wObj];
+          currentLineWidth = wordWidth + spaceWidth;
+        }
+      }
+      if (currentLine.length > 0) lines.push(currentLine);
+      return lines;
+    }
+
+    let blinkTimer = 0;
+    let showCursor = true;
+    let timestamp = 0;
+
+    function renderLoop(now) {
+      timestamp = now;
+      if (!lastFrameTime) lastFrameTime = now;
+      const elapsed = now - lastFrameTime;
+
+      if (elapsed >= targetInterval - 2) {
+        lastFrameTime = now - (elapsed % targetInterval);
+
+        blinkTimer += elapsed;
+        if (blinkTimer > 400) {
+          showCursor = !showCursor;
+          blinkTimer = 0;
+        }
+
+        ctx.clearRect(0, 0, width, height);
+        
+        const flowerAnimProgress = parseFloat(getComputedStyle(flowerFrame).opacity);
+        
+        if (flowerAnimProgress > 0.1) {
+          fireflies.forEach(f => { f.update(flowerAnimProgress); f.draw(); });
+        }
+
+        for (let i = activeParticles.length - 1; i >= 0; i--) {
+          const p = activeParticles[i];
+          p.update(); p.draw();
+          if (p.life <= 0) activeParticles.splice(i, 1);
+        }
+
+        const maxWidth = width * 0.85;
+        const baseFontSize = Math.min(Math.max(width * 0.08, 24), 42); 
+        const lineHeight = baseFontSize * 1.55;
+        const lines = getWrappedLines(wordObjects, maxWidth, baseFontSize);
+
+        const totalTextHeight = lines.length * lineHeight;
+        const visibleAreaHeight = height * 0.65;
+        maxScrollOffset = Math.max(0, totalTextHeight - visibleAreaHeight + 40);
+
+        if (!isDragging) {
+          if (scrollOffset < 0) scrollOffset += (0 - scrollOffset) * 0.12;
+          if (scrollOffset > maxScrollOffset) scrollOffset += (maxScrollOffset - scrollOffset) * 0.12;
+          if (Math.abs(scrollOffset) < 0.1) scrollOffset = 0;
+          if (Math.abs(scrollOffset - maxScrollOffset) < 0.1) scrollOffset = maxScrollOffset;
+        }
+
+        ctx.save();
+        ctx.textBaseline = 'top';
+
+        const topFadeLimit = startY - 10;
+        const bottomFadeLimit = height * 0.78;
+
+        lines.forEach((line, lineIndex) => {
+          let lineY = startY + (lineIndex * lineHeight) - scrollOffset;
+
+          let zoneAlpha = 1.0;
+          if (lineY < topFadeLimit) {
+            zoneAlpha = Math.max(0, 1 - (topFadeLimit - lineY) / 60);
+          } else if (lineY > bottomFadeLimit) {
+            zoneAlpha = Math.max(0, 1 - (lineY - bottomFadeLimit) / 60);
+          }
+
+          if (lineY > -lineHeight && lineY < height + lineHeight) {
+            let totalLineWidth = 0;
+            line.forEach(w => {
+              let fName = getWordFont(w);
+              ctx.font = `800 ${baseFontSize}px ${fName}`;
+              totalLineWidth += ctx.measureText(w.text).width;
+            });
+            totalLineWidth += (line.length - 1) * ctx.measureText(" ").width;
+
+            let currentX = (width - totalLineWidth) / 2;
+
+            line.forEach((wObj) => {
+              let fName = getWordFont(wObj);
+              ctx.font = `800 ${baseFontSize}px ${fName}`;
+              let wordWidth = ctx.measureText(wObj.text).width;
+
+              if (wObj.isDissolving) {
+                wObj.opacity -= 0.03; 
+                wObj.offsetY -= 0.8;   
+                if (wObj.opacity > 0.15 && Math.random() > 0.3) {
+                  activeParticles.push(new DynamicParticle(
+                    currentX + Math.random() * wordWidth, 
+                    lineY + wObj.offsetY + Math.random() * baseFontSize, 
+                    getHeartColor(), 
+                    Math.random() > 0.5
+                  ));
+                }
+              }
+
+              let alpha = Math.max(0, wObj.opacity * zoneAlpha);
+              if (alpha > 0) {
+                ctx.save();
+                ctx.translate(currentX + wordWidth / 2, lineY + wObj.offsetY + baseFontSize / 2);
+                if (wObj.scale !== undefined && wObj.scale !== 1.0) ctx.scale(wObj.scale, wObj.scale);
+                if (wObj.rotation !== undefined && wObj.rotation !== 0) ctx.rotate(wObj.rotation);
+
+                ctx.strokeStyle = `rgba(0, 0, 0, ${alpha * 0.9})`;
+                ctx.lineWidth = 5;
+                ctx.lineJoin = 'round';
+                ctx.strokeText(wObj.text, -wordWidth / 2, -baseFontSize / 2);
+
+                ctx.shadowBlur = 14;
+                ctx.shadowColor = `rgba(${wObj.color.r}, ${wObj.color.g}, ${wObj.color.b}, ${alpha * 0.8})`;
+                ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.98})`;
+                ctx.fillText(wObj.text, -wordWidth / 2, -baseFontSize / 2);
+                ctx.restore();
+              }
+
+              if (Math.random() < 0.08) {
+                activeParticles.push(new DynamicParticle(currentX + Math.random() * 20, lineY, getHeartColor(), true));
+              }
+
+              currentX += wordWidth + ctx.measureText(" ").width;
+            });
+
+            if (lineIndex === lines.length - 1) {
+              cursorPosition = { x: currentX, y: lineY };
+            }
+          }
+        });
+
+        ctx.restore();
+      }
+
+      requestAnimationFrame(renderLoop);
+    }
+
+    document.fonts.ready.then(() => {
+      requestAnimationFrame(renderLoop);
+    });
+  </script>
+</body>
+</html>
