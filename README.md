@@ -32,6 +32,14 @@ This project is an **interactive portfolio and realistic typing effect** web app
 4.  **History**: Access the history menu to see and replay past animations.
 5.  **Clear**: Use the backspace/clear icon to remove words individually with a dissolving animation.
 
+# ⭐ Support
+
+If you like Glowing-Flower, don't forget to leave a ⭐ on GitHub.
+
+It helps the project grow.
+
+---
+
 ## location
 - Bangladesh
 <div align="center">
