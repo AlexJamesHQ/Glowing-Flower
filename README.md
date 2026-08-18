@@ -32,6 +32,8 @@ This project is an **interactive portfolio and realistic typing effect** web app
 4.  **History**: Access the history menu to see and replay past animations.
 5.  **Clear**: Use the backspace/clear icon to remove words individually with a dissolving animation.
 
-## Credits & location
-- **Designed by**: ΛLΞX JΛMΞS ᗪEV
+## location
 - Bangladesh
+<div align="center">
+
+  ## Made with ❤️ by ΛLΞX JΛMΞS
